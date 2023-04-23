@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             MaterialAlertDialogBuilder(mainActivity)
                 .setTitle(answerText)
                 .setMessage("Press OK to continue.")
-                .setPositiveButton("OK") { _, _ -> }
+                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 .show()
         }
     }
