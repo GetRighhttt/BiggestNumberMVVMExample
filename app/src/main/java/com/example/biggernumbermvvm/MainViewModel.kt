@@ -28,34 +28,46 @@ class MainViewModel : ViewModel() {
     /*
     Determines right answer. Will be called in btnRight setOnClickListener().
      */
-    fun determineRightButtonAnswer(leftNumber: Int, rightNumber: Int) = viewModelScope.launch {
-        // sets initial value
-        _answer.value = AnswerState.UnknownAnswer
+    fun determineRightButtonAnswer(leftNumber: Int, rightNumber: Int) {
+        try {
+            viewModelScope.launch {
+                // sets initial value
+                _answer.value = AnswerState.UnknownAnswer
 
-        // destructing our AnswerChoices Data class into two variables -> left, right
-        val (left, right) = AnswerChoices(leftNumber, rightNumber)
+                // destructing our AnswerChoices Data class into two variables -> left, right
+                val (left, right) = AnswerChoices(leftNumber, rightNumber)
 
-        if (right > left) {
-            _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
-        } else {
-            _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
+                if (right > left) {
+                    _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
+                } else {
+                    _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("VIEW_MODEL", "Error in determineRightButtonAnswer: ${e.message}")
         }
     }
 
     /*
     Determines right answer. Will be called in btnLeft setOnClickListener().
      */
-    fun determineLeftButtonAnswer(leftNumber: Int, rightNumber: Int) = viewModelScope.launch {
-        // sets initial value
-        _answer.value = AnswerState.UnknownAnswer
+    fun determineLeftButtonAnswer(leftNumber: Int, rightNumber: Int) {
+        try {
+            viewModelScope.launch {
+                // sets initial value
+                _answer.value = AnswerState.UnknownAnswer
 
-        // destructing our AnswerChoices Data class into two variables -> left, right
-        val (left, right) = AnswerChoices(leftNumber, rightNumber)
+                // destructing our AnswerChoices Data class into two variables -> left, right
+                val (left, right) = AnswerChoices(leftNumber, rightNumber)
 
-        if (left > right) {
-            _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
-        } else {
-            _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
+                if (left > right) {
+                    _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
+                } else {
+                    _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("VIEW_MODEL", "Error in determineLeftButtonAnswer: ${e.message}")
         }
     }
 

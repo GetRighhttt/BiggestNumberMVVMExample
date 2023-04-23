@@ -84,38 +84,42 @@ class MainActivity : AppCompatActivity() {
     Also sets the message to the display textview, and shows a Snack bar with the message also.
      */
     private fun determineAnswerState() {
-        lifecycleScope.launchWhenStarted {
-            binding.apply {
+        try {
+            lifecycleScope.launchWhenStarted {
+                binding.apply {
 
-                viewModel.answer.collect {
-                    when (it) {
-                        is MainViewModel.AnswerState.CorrectAnswer -> {
-                            // delay just for demo purposes
-                            delay(300L)
-                            tvDisplayAnswer.text = it.message
-                            backgroundSelector.setBackgroundColor(Color.GREEN)
-                            materialDialog(this@MainActivity, it.message)
-                            Log.d("MAIN", "Correct Answer Chosen.")
-                        }
+                    viewModel.answer.collect {
+                        when (it) {
+                            is MainViewModel.AnswerState.CorrectAnswer -> {
+                                // delay just for demo purposes
+                                delay(300L)
+                                tvDisplayAnswer.text = it.message
+                                backgroundSelector.setBackgroundColor(Color.GREEN)
+                                materialDialog(this@MainActivity, it.message)
+                                Log.d("MAIN", "Correct Answer Chosen.")
+                            }
 
-                        is MainViewModel.AnswerState.WrongAnswer -> {
-                            // delay just for demo purposes
-                            delay(300L)
-                            tvDisplayAnswer.text = it.message
-                            backgroundSelector.setBackgroundColor(Color.RED)
-                            materialDialog(this@MainActivity, it.message)
-                            Log.d("MAIN", "Wrong Answer Chosen.")
-                        }
+                            is MainViewModel.AnswerState.WrongAnswer -> {
+                                // delay just for demo purposes
+                                delay(300L)
+                                tvDisplayAnswer.text = it.message
+                                backgroundSelector.setBackgroundColor(Color.RED)
+                                materialDialog(this@MainActivity, it.message)
+                                Log.d("MAIN", "Wrong Answer Chosen.")
+                            }
 
-                        is MainViewModel.AnswerState.UnknownAnswer -> {
-                            Log.d("MAIN", "Unknown Answer...")
-                            // when in unknown, assign random numbers
-                            assignRandomNumbers()
+                            is MainViewModel.AnswerState.UnknownAnswer -> {
+                                Log.d("MAIN", "Unknown Answer...")
+                                // when in unknown, assign random numbers
+                                assignRandomNumbers()
+                            }
                         }
                     }
-                }
 
+                }
             }
+        } catch (e: Exception) {
+            Log.e("MAIN", "Error in determineAnswerState: ${e.message}")
         }
     }
 
