@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.biggernumbermvvm.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Random
 
 class MainActivity : AppCompatActivity() {
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun determineAnswerState() {
         try {
-            lifecycleScope.launchWhenStarted {
+            lifecycleScope.launch {
                 binding.apply {
 
                     viewModel.answer.collect {
