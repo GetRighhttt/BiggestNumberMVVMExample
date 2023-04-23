@@ -4,13 +4,16 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
+import androidx.core.graphics.toColor
 import androidx.lifecycle.lifecycleScope
 import com.example.biggernumbermvvm.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Random
+import kotlin.time.toDuration
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,13 +29,18 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     companion object {
-        private fun materialDialog(mainActivity: MainActivity, answerText: String) {
+        private fun materialDialog(
+            mainActivity: MainActivity,
+            titleText: String,
+            answerText: String
+        ) {
             MaterialAlertDialogBuilder(mainActivity)
-                .setTitle(answerText)
-                .setMessage("Press OK to continue.")
-                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .setTitle(titleText)
+                .setMessage(answerText)
+                .setPositiveButton("Continue") { dialog, _ -> dialog.dismiss() }
                 .show()
         }
+
     }
 
     /*
@@ -51,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         Binding block to bind our views.
          */
         binding.apply {
+            pbMain.visibility = View.GONE
 
             /*
             On Click listeners for our buttons. We use our view model methods to determine
@@ -95,8 +104,13 @@ class MainActivity : AppCompatActivity() {
                                 // delay just for demo purposes
                                 delay(300L)
                                 tvDisplayAnswer.text = it.message
+                                pbMain.visibility = View.GONE
                                 backgroundSelector.setBackgroundColor(Color.GREEN)
-                                materialDialog(this@MainActivity, it.message)
+                                materialDialog(
+                                    this@MainActivity,
+                                    it.message,
+                                    "Great Job! You got the answer right!"
+                                )
                                 Log.d("MAIN", "Correct Answer Chosen.")
                             }
 
@@ -104,8 +118,13 @@ class MainActivity : AppCompatActivity() {
                                 // delay just for demo purposes
                                 delay(300L)
                                 tvDisplayAnswer.text = it.message
+                                pbMain.visibility = View.GONE
                                 backgroundSelector.setBackgroundColor(Color.RED)
-                                materialDialog(this@MainActivity, it.message)
+                                materialDialog(
+                                    this@MainActivity,
+                                    it.message,
+                                    "Oops! Looks like you got the answer wrong!"
+                                )
                                 Log.d("MAIN", "Wrong Answer Chosen.")
                             }
 
@@ -113,6 +132,11 @@ class MainActivity : AppCompatActivity() {
                                 Log.d("MAIN", "Unknown Answer...")
                                 // when in unknown, assign random numbers
                                 assignRandomNumbers()
+                            }
+
+                            is MainViewModel.AnswerState.LoadingAnswer -> {
+                                pbMain.visibility = View.VISIBLE
+                                Log.d("MAIN", "Loading Answer...")
                             }
                         }
                     }

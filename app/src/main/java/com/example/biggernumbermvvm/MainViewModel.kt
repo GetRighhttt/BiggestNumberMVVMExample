@@ -3,6 +3,7 @@ package com.example.biggernumbermvvm
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,10 +33,13 @@ class MainViewModel : ViewModel() {
     Determines right answer. Will be called in btnRight setOnClickListener().
      */
     fun determineRightButtonAnswer(leftNumber: Int, rightNumber: Int) {
+        // sets initial value
+        _answer.value = AnswerState.LoadingAnswer
+
         try {
             viewModelScope.launch {
-                // sets initial value
-                _answer.value = AnswerState.UnknownAnswer
+                // delay to allow for progress bar to show
+                delay(500L)
 
                 // destructing our AnswerChoices Data class into two variables -> left, right
                 val (left, right) = AnswerChoices(leftNumber, rightNumber)
@@ -57,10 +61,13 @@ class MainViewModel : ViewModel() {
     Determines right answer. Will be called in btnLeft setOnClickListener().
      */
     fun determineLeftButtonAnswer(leftNumber: Int, rightNumber: Int) {
+        // sets initial value
+        _answer.value = AnswerState.LoadingAnswer
+
         try {
             viewModelScope.launch {
-                // sets initial value
-                _answer.value = AnswerState.UnknownAnswer
+                // delay to allow for progress bar to show
+                delay(500L)
 
                 // destructing our AnswerChoices Data class into two variables -> left, right
                 val (left, right) = AnswerChoices(leftNumber, rightNumber)
@@ -92,6 +99,7 @@ class MainViewModel : ViewModel() {
     sealed class AnswerState {
         data class CorrectAnswer(val message: String) : AnswerState()
         data class WrongAnswer(val message: String) : AnswerState()
+        object LoadingAnswer : AnswerState()
         object UnknownAnswer : AnswerState()
     }
 }
