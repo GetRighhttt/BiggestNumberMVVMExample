@@ -47,7 +47,9 @@ class MainViewModel : ViewModel() {
                 }
             }
         } catch (e: Exception) {
-            Log.d("VIEW_MODEL", "Error in determineRightButtonAnswer viewModelScope: ${e.message}")
+            Log.d(
+                "VIEW_MODEL",
+                "Error in determineRightButtonAnswer viewModelScope: ${e.message}")
         }
     }
 
@@ -70,7 +72,9 @@ class MainViewModel : ViewModel() {
                 }
             }
         } catch (e: Exception) {
-            Log.d("VIEW_MODEL", "Error in determineLeftButtonAnswer viewModelScope: ${e.message}")
+            Log.d(
+                "VIEW_MODEL",
+                "Error in determineLeftButtonAnswer viewModelScope: ${e.message}")
         }
     }
 
