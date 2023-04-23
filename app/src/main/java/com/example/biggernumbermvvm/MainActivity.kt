@@ -31,10 +31,17 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     /*
+    Companion object used for creating static instances.
+     */
+    companion object {
+        const val TAG = "MAIN"
+    }
+
+    /*
     Initializer block. Logs when main activity starts.
      */
     init {
-        Log.d("MAIN", "${Thread.currentThread().name.uppercase()} initialized.")
+        Log.d(TAG, "${Thread.currentThread().name.uppercase()} initialized.")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     btnLeft.text.toString().toInt(),
                     btnRight.text.toString().toInt()
                 )
-                Log.d("MAIN", "$btnLeft clicked!")
+                Log.d(TAG, "$btnLeft clicked!")
                 viewModel.resetAnswerState()
             }
 
@@ -66,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     btnLeft.text.toString().toInt(),
                     btnRight.text.toString().toInt()
                 )
-                Log.d("MAIN", "$btnRight clicked!")
+                Log.d(TAG, "$btnRight clicked!")
                 viewModel.resetAnswerState()
             }
         }
@@ -98,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                                     it.message,
                                     "Great Job! You got the answer right!"
                                 )
-                                Log.d("MAIN", "Correct Answer Chosen.")
+                                Log.d(TAG, "Correct Answer Chosen.")
                             }
 
                             is MainViewModel.AnswerState.WrongAnswer -> {
@@ -112,12 +119,12 @@ class MainActivity : AppCompatActivity() {
                                     it.message,
                                     "Oops! Looks like you got the answer wrong!"
                                 )
-                                Log.d("MAIN", "Wrong Answer Chosen.")
+                                Log.d(TAG, "Wrong Answer Chosen.")
                             }
 
                             is MainViewModel.AnswerState.UnknownAnswer -> {
                                 delay(600L)
-                                Log.d("MAIN", "Unknown Answer...")
+                                Log.d(TAG, "Unknown Answer...")
                                 assignRandomNumbers()
                             }
 
@@ -125,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                                 pbMain.visibility = View.VISIBLE
                                 animateButton(btnLeft)
                                 animateButton(btnRight)
-                                Log.d("MAIN", "Loading Answer...")
+                                Log.d(TAG, "Loading Answer...")
                             }
                         }
                     }
@@ -133,7 +140,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         } catch (e: IllegalStateException) {
-            Log.e("MAIN", "IllegalStateException: ${e.message}")
+            Log.e(TAG, "IllegalStateException: ${e.message}")
         }
     }
 

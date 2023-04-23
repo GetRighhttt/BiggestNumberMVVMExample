@@ -17,13 +17,17 @@ class MainViewModel : ViewModel() {
     private val _answer = MutableStateFlow<AnswerState>(AnswerState.UnknownAnswer)
     val answer: StateFlow<AnswerState> get() = _answer
 
+    companion object {
+        const val TAG = "VIEW_MODEL"
+    }
+
     init {
         /*
         Updates logcat with answer state and sets the initial state to unknown each time it is
         called.
          */
         Log.d(
-            "VIEW_MODEL",
+            TAG,
             "View Model initialized on: ${Thread.currentThread().name.uppercase()}."
         )
         _answer.value = AnswerState.UnknownAnswer
@@ -52,7 +56,7 @@ class MainViewModel : ViewModel() {
             }
         } catch (e: Exception) {
             Log.d(
-                "VIEW_MODEL",
+                TAG,
                 "Error in determineRightButtonAnswer viewModelScope: ${e.message}")
         }
     }
@@ -80,7 +84,7 @@ class MainViewModel : ViewModel() {
             }
         } catch (e: Exception) {
             Log.d(
-                "VIEW_MODEL",
+                TAG,
                 "Error in determineLeftButtonAnswer viewModelScope: ${e.message}")
         }
     }
@@ -91,6 +95,7 @@ class MainViewModel : ViewModel() {
      */
     fun resetAnswerState() {
         _answer.value = AnswerState.UnknownAnswer
+        Log.d(TAG, "Empty State set...")
     }
 
     /*
