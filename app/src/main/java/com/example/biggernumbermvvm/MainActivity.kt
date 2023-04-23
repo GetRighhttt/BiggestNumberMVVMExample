@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         } catch (e: IllegalStateException) {
-            Log.e("MAIN", "IllegalStateExceptioni: ${e.message}")
+            Log.e("MAIN", "IllegalStateException: ${e.message}")
         }
     }
 
