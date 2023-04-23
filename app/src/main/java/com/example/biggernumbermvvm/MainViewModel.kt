@@ -21,7 +21,10 @@ class MainViewModel : ViewModel() {
         Updates logcat with answer state and sets the initial state to unknown each time it is
         called.
          */
-        Log.d("VIEW_MODEL", "View Model initialized on: ${Thread.currentThread().name.uppercase()}.")
+        Log.d(
+            "VIEW_MODEL",
+            "View Model initialized on: ${Thread.currentThread().name.uppercase()}."
+        )
         _answer.value = AnswerState.UnknownAnswer
     }
 
@@ -44,7 +47,7 @@ class MainViewModel : ViewModel() {
                 }
             }
         } catch (e: Exception) {
-            Log.d("VIEW_MODEL", "Error in determineRightButtonAnswer: ${e.message}")
+            Log.d("VIEW_MODEL", "Error in determineRightButtonAnswer viewModelScope: ${e.message}")
         }
     }
 
@@ -67,7 +70,7 @@ class MainViewModel : ViewModel() {
                 }
             }
         } catch (e: Exception) {
-            Log.d("VIEW_MODEL", "Error in determineLeftButtonAnswer: ${e.message}")
+            Log.d("VIEW_MODEL", "Error in determineLeftButtonAnswer viewModelScope: ${e.message}")
         }
     }
 

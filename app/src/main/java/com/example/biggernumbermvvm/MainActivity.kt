@@ -118,8 +118,8 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
-        } catch (e: Exception) {
-            Log.e("MAIN", "Error in determineAnswerState: ${e.message}")
+        } catch (e: IllegalStateException) {
+            Log.e("MAIN", "IllegalStateExceptioni: ${e.message}")
         }
     }
 
