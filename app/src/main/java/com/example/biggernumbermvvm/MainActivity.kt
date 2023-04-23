@@ -7,15 +7,12 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.activity.viewModels
-import androidx.core.graphics.toColor
 import androidx.lifecycle.lifecycleScope
 import com.example.biggernumbermvvm.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Random
-import kotlin.time.toDuration
 
 class MainActivity : AppCompatActivity() {
 
@@ -60,18 +57,20 @@ class MainActivity : AppCompatActivity() {
             the right answer and reset the state of the UI to unknown after.
              */
             btnLeft.setOnClickListener {
-                viewModel.determineLeftButtonAnswer(
+                viewModel.determineRightAnswer(
                     btnLeft.text.toString().toInt(),
-                    btnRight.text.toString().toInt()
+                    btnRight.text.toString().toInt(),
+                    true
                 )
                 Log.d(TAG, "$btnLeft clicked!")
                 viewModel.resetAnswerState()
             }
 
             btnRight.setOnClickListener {
-                viewModel.determineRightButtonAnswer(
+                viewModel.determineRightAnswer(
                     btnLeft.text.toString().toInt(),
-                    btnRight.text.toString().toInt()
+                    btnRight.text.toString().toInt(),
+                    false
                 )
                 Log.d(TAG, "$btnRight clicked!")
                 viewModel.resetAnswerState()

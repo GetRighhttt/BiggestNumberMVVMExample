@@ -36,7 +36,7 @@ class MainViewModel : ViewModel() {
     /*
     Determines right answer. Will be called in btnRight setOnClickListener().
      */
-    fun determineRightButtonAnswer(leftNumber: Int, rightNumber: Int) {
+    fun determineRightAnswer(leftNumber: Int, rightNumber: Int, isLeftSelected: Boolean) {
         // sets initial value
         _answer.value = AnswerState.LoadingAnswer
 
@@ -48,44 +48,29 @@ class MainViewModel : ViewModel() {
                 // destructing our AnswerChoices Data class into two variables -> left, right
                 val (left, right) = AnswerChoices(leftNumber, rightNumber)
 
-                if (right > left) {
-                    _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
-                } else {
-                    _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
+                when (isLeftSelected) {
+                    true -> {
+                        if (left > right) {
+                            _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
+                        } else {
+                            _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
+                        }
+                    }
+
+                    false -> {
+                        if (right > left) {
+                            _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
+                        } else {
+                            _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
+                        }
+                    }
                 }
             }
         } catch (e: Exception) {
             Log.d(
                 TAG,
-                "Error in determineRightButtonAnswer viewModelScope: ${e.message}")
-        }
-    }
-
-    /*
-    Determines right answer. Will be called in btnLeft setOnClickListener().
-     */
-    fun determineLeftButtonAnswer(leftNumber: Int, rightNumber: Int) {
-        // sets initial value
-        _answer.value = AnswerState.LoadingAnswer
-
-        try {
-            viewModelScope.launch {
-                // delay to allow for progress bar to show
-                delay(500L)
-
-                // destructing our AnswerChoices Data class into two variables -> left, right
-                val (left, right) = AnswerChoices(leftNumber, rightNumber)
-
-                if (left > right) {
-                    _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
-                } else {
-                    _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
-                }
-            }
-        } catch (e: Exception) {
-            Log.d(
-                TAG,
-                "Error in determineLeftButtonAnswer viewModelScope: ${e.message}")
+                "Error in determineRightButtonAnswer viewModelScope: ${e.message}"
+            )
         }
     }
 
