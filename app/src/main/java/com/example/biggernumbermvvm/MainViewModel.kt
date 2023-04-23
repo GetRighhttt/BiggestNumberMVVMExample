@@ -32,7 +32,10 @@ class MainViewModel : ViewModel() {
         // sets initial value
         _answer.value = AnswerState.UnknownAnswer
 
-        if (rightNumber > leftNumber) {
+        // destructing our AnswerChoices Data class into two variables -> left, right
+        val (left, right) = AnswerChoices(leftNumber, rightNumber)
+
+        if (right.toString().toInt() > left.toString().toInt()) {
             _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
         } else {
             _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
@@ -46,7 +49,10 @@ class MainViewModel : ViewModel() {
         // sets initial value
         _answer.value = AnswerState.UnknownAnswer
 
-        if (leftNumber > rightNumber) {
+        // destructing our AnswerChoices Data class into two variables -> left, right
+        val (left, right) = AnswerChoices(leftNumber, rightNumber)
+
+        if (left.toString().toInt() > right.toString().toInt()) {
             _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
         } else {
             _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
