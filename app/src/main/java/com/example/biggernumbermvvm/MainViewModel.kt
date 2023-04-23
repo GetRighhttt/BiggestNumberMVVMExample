@@ -35,7 +35,7 @@ class MainViewModel : ViewModel() {
         // destructing our AnswerChoices Data class into two variables -> left, right
         val (left, right) = AnswerChoices(leftNumber, rightNumber)
 
-        if (right.toString().toInt() > left.toString().toInt()) {
+        if (right > left) {
             _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
         } else {
             _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
@@ -52,7 +52,7 @@ class MainViewModel : ViewModel() {
         // destructing our AnswerChoices Data class into two variables -> left, right
         val (left, right) = AnswerChoices(leftNumber, rightNumber)
 
-        if (left.toString().toInt() > right.toString().toInt()) {
+        if (left > right) {
             _answer.value = AnswerState.CorrectAnswer(message = "Correct Answer!")
         } else {
             _answer.value = AnswerState.WrongAnswer(message = "Wrong Answer!")
