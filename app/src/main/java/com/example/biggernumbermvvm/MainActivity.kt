@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.activity.viewModels
 import androidx.core.graphics.toColor
 import androidx.lifecycle.lifecycleScope
 import com.example.biggernumbermvvm.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Random
@@ -27,21 +29,6 @@ class MainActivity : AppCompatActivity() {
     Using delegation to delegate our view model responsibilities to a variable
      */
     private val viewModel: MainViewModel by viewModels()
-
-    companion object {
-        private fun materialDialog(
-            mainActivity: MainActivity,
-            titleText: String,
-            answerText: String
-        ) {
-            MaterialAlertDialogBuilder(mainActivity)
-                .setTitle(titleText)
-                .setMessage(answerText)
-                .setPositiveButton("Continue") { dialog, _ -> dialog.dismiss() }
-                .show()
-        }
-
-    }
 
     /*
     Initializer block. Logs when main activity starts.
@@ -129,13 +116,15 @@ class MainActivity : AppCompatActivity() {
                             }
 
                             is MainViewModel.AnswerState.UnknownAnswer -> {
+                                delay(600L)
                                 Log.d("MAIN", "Unknown Answer...")
-                                // when in unknown, assign random numbers
                                 assignRandomNumbers()
                             }
 
                             is MainViewModel.AnswerState.LoadingAnswer -> {
                                 pbMain.visibility = View.VISIBLE
+                                animateButton(btnLeft)
+                                animateButton(btnRight)
                                 Log.d("MAIN", "Loading Answer...")
                             }
                         }
@@ -161,6 +150,32 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             btnLeft.text = leftNumber.toString()
             btnRight.text = rightNumber.toString()
+        }
+    }
+
+    private fun materialDialog(
+        mainActivity: MainActivity,
+        titleText: String,
+        answerText: String
+    ) = object : MaterialAlertDialogBuilder(this) {
+        val dialog = MaterialAlertDialogBuilder(mainActivity)
+            .setTitle(titleText)
+            .setMessage(answerText)
+            .setPositiveButton("Continue") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun animateButton(button: Button) = binding.apply {
+        button.animate().apply {
+            duration = 500L
+            rotationXBy(180F)
+        }.withEndAction {
+            button.animate().apply {
+                duration = 500L
+                rotationXBy(-180F)
+            }
         }
     }
 
