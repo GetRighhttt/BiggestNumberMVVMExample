@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.biggernumbermvvm.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Random
 
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 binding.apply {
 
-                    viewModel.answer.collect {
+                    viewModel.answer.flowWithLifecycle(lifecycle).collect {
                         when (it) {
                             is MainViewModel.AnswerState.CorrectAnswer -> {
                                 // delay just for demo purposes
